@@ -146,6 +146,7 @@
   .hero-anim.d2.show{transition-delay:.20s}
   .hero-anim.d3.show{transition-delay:.35s}
   .hero-anim.d4.show{transition-delay:.50s}
+  .hero-anim.d5.show{transition-delay:.65s}
 
   /* HEADER */
   header{
@@ -273,6 +274,32 @@
   }
   .motto .em{color:var(--vw-pink)}
   .motto .em2{color:var(--vw-cyan)}
+
+  /* SCROLL HINT */
+  .scroll-hint{
+    margin-top:56px;
+    text-align:center;
+    font-family:var(--vw-mono);
+    font-size:clamp(16px,2.2vw,20px);
+    color:var(--vw-cyan);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    opacity:.85;
+    transition:opacity .3s ease;
+    user-select:none;
+  }
+  .scroll-hint:hover{opacity:1}
+  .scroll-hint .arrows{
+    display:inline-block;
+    margin-left:10px;
+    color:var(--vw-pink);
+    text-shadow:0 0 10px rgba(255,113,206,.5);
+    animation:bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes bounce{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(6px)}
+  }
 
   /* ЗАГОЛОВКИ */
   .sec-title{
@@ -690,6 +717,7 @@
     .banner{padding:0 18px;margin-top:30px}
     .banner-inner{padding:20px;gap:14px}
     .banner-ico{font-size:22px}
+    .scroll-hint{margin-top:40px}
   }
 </style>
 </head>
@@ -737,6 +765,10 @@
       <span class="em">Рандом заявка в друзья</span> — не аргумент.<br>
       <span class="em2">Встреча в катке</span> — what's up, my friend!
     </p>
+
+    <div class="scroll-hint hero-anim d5">
+      Хочешь узнать обо мне больше?<span class="arrows">↓↓↓</span>
+    </div>
   </div>
 </section>
 
@@ -793,7 +825,7 @@
       <div class="about-card wide">
         <div class="card-ico">// Кто я</div>
         <p>
-          Привет. Меня зовут <span class="hl">Никита</span>, но можешь звать <span class="hl">Никитосом</span>.
+          Привет. Звать <span class="hl">Никитосом</span>, но можешь и по нику — <span class="hl-cyan">NianoRat</span>.
           И то, и то для меня — синонимы моего имени. <span class="hl-cyan">15 лет</span>, 9 класс.
           Учился в музыкальной школе <span class="hl-cyan">7 лет</span>.
         </p>
