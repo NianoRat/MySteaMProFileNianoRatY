@@ -3,37 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Открытый профиль. Закрытый френдлист.</title>
+<title>NIANORAT // Открытый профиль. Закрытый френдлист.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Major+Mono+Display&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 <style>
+  /* ============================================================
+     VAPORWAVE PALETTE
+     ============================================================ */
   :root{
-    --bg:#07070c;
-    --bg-2:#0b0b13;
-    --panel:#101019;
-    --panel-2:#15151f;
-    --border:#1e1e2c;
-    --border-2:#2a2a3d;
-    --text:#e8e8f0;
-    --muted:#8b8b9e;
-    --dim:#5a5a6e;
-    --accent:#00e5ff;
-    --accent-glow:rgba(0,229,255,.35);
-    --danger:#ff2d55;
-    --danger-glow:rgba(255,45,85,.3);
-    --warn:#ffb020;
-    --ok:#26d97f;
-    --mono:'JetBrains Mono', ui-monospace, monospace;
-    --sans:'Inter', system-ui, -apple-system, sans-serif;
+    --vw-pink:   #ff71ce;
+    --vw-cyan:   #01cdfe;
+    --vw-mint:   #05ffa1;
+    --vw-purple: #b967ff;
+    --vw-sun:    #fffb96;
+    --vw-red:    #ff2d55;
+    --vw-bg:     #0d0221;
+    --vw-bg-2:   #1a0b2e;
+    --vw-panel:  rgba(26, 11, 46, 0.75);
+    --vw-border: rgba(185, 103, 255, 0.35);
+    --vw-text:   #f0e6ff;
+    --vw-muted:  #a89bbd;
+    --vw-dim:    #6b5d7a;
+    --vw-mono:   'VT323', monospace;
+    --vw-title:  'Major Mono Display', monospace;
+    --vw-sans:   'Inter', system-ui, sans-serif;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:var(--sans);
+    background:var(--vw-bg);
+    color:var(--vw-text);
+    font-family:var(--vw-sans);
     font-size:16px;
     line-height:1.6;
     min-height:100vh;
@@ -41,329 +43,486 @@
     position:relative;
   }
 
-  /* ---------- Фон: сетка + градиентные пятна ---------- */
+  /* ============================================================
+     ФОН
+     ============================================================ */
   .bg-fx{
     position:fixed;inset:0;z-index:-1;overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(185,103,255,.25) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(255,113,206,.15) 0%, transparent 50%),
+      linear-gradient(180deg, #0d0221 0%, #1a0b2e 50%, #0d0221 100%);
   }
-  .bg-fx::before{
+  .bg-fx::after{
     content:"";
-    position:absolute;inset:0;
+    position:absolute;
+    bottom:0;left:-50%;right:-50%;
+    height:55vh;
     background-image:
-      linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+      linear-gradient(rgba(1,205,254,.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,113,206,.25) 1px, transparent 1px);
     background-size:52px 52px;
-    mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 80%);
-    -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 80%);
+    transform:perspective(320px) rotateX(62deg);
+    transform-origin:center bottom;
+    mask-image:linear-gradient(to top, #000 0%, transparent 85%);
+    -webkit-mask-image:linear-gradient(to top, #000 0%, transparent 85%);
+    animation:gridScroll 16s linear infinite;
+    opacity:.5;
+  }
+  @keyframes gridScroll{
+    0%{background-position:0 0}
+    100%{background-position:0 52px}
   }
   .glow{
-    position:absolute;border-radius:50%;filter:blur(120px);opacity:.35;
-    animation:drift 18s ease-in-out infinite alternate;
+    position:absolute;border-radius:50%;filter:blur(130px);opacity:.35;
+    animation:drift 20s ease-in-out infinite alternate;
   }
-  .glow.a{width:520px;height:520px;background:#00e5ff;top:-180px;left:-140px;}
-  .glow.b{width:460px;height:460px;background:#ff2d55;top:35%;right:-180px;animation-delay:-6s;}
-  .glow.c{width:420px;height:420px;background:#7b2cff;bottom:-200px;left:30%;animation-delay:-12s;opacity:.22;}
+  .glow.a{width:500px;height:500px;background:var(--vw-purple);top:-160px;left:-120px;}
+  .glow.b{width:440px;height:440px;background:var(--vw-pink);top:40%;right:-160px;animation-delay:-7s;}
+  .glow.c{width:400px;height:400px;background:var(--vw-cyan);bottom:-180px;left:28%;animation-delay:-13s;opacity:.2;}
   @keyframes drift{
     0%{transform:translate(0,0) scale(1)}
-    100%{transform:translate(60px,-40px) scale(1.15)}
+    100%{transform:translate(50px,-40px) scale(1.12)}
   }
 
-  /* ---------- Общие контейнеры ---------- */
+  /* ============================================================
+     ОБЩЕЕ
+     ============================================================ */
   .wrap{max-width:920px;margin:0 auto;padding:0 24px}
   section{padding:80px 0;position:relative}
   .divider{
-    height:1px;background:linear-gradient(90deg,transparent,var(--border-2),transparent);
-    max-width:920px;margin:0 auto;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--vw-purple),var(--vw-pink),transparent);
+    max-width:920px;margin:0 auto;opacity:.4;
   }
 
-  /* ---------- Хедер ---------- */
+  /* ============================================================
+     HEADER
+     ============================================================ */
   header{
     position:sticky;top:0;z-index:50;
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-    background:rgba(7,7,12,.7);
-    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    background:rgba(13,2,33,.7);
+    border-bottom:1px solid var(--vw-border);
   }
   .nav{
     display:flex;align-items:center;justify-content:space-between;
     padding:16px 24px;max-width:920px;margin:0 auto;
   }
   .logo{
-    font-family:var(--mono);font-weight:800;font-size:14px;
-    letter-spacing:.5px;color:var(--text);
+    font-family:var(--vw-title);font-weight:400;font-size:13px;
+    letter-spacing:1px;color:var(--vw-text);
     display:flex;align-items:center;gap:10px;
   }
   .logo .dot{
-    width:8px;height:8px;background:var(--danger);border-radius:50%;
-    box-shadow:0 0 12px var(--danger-glow);
-    animation:pulse 2s ease-in-out infinite;
+    width:8px;height:8px;background:var(--vw-pink);border-radius:50%;
+    box-shadow:0 0 14px var(--vw-pink);
+    animation:pulse 2.2s ease-in-out infinite;
   }
   @keyframes pulse{
     0%,100%{opacity:1;transform:scale(1)}
-    50%{opacity:.5;transform:scale(.85)}
+    50%{opacity:.4;transform:scale(.8)}
   }
   .nav-link{
-    font-family:var(--mono);font-size:12px;color:var(--muted);
-    text-decoration:none;letter-spacing:.5px;
-    border:1px solid var(--border-2);
-    padding:8px 14px;border-radius:6px;
-    transition:all .2s ease;
+    font-family:var(--vw-mono);font-size:15px;color:var(--vw-muted);
+    text-decoration:none;letter-spacing:1px;
+    border:1px solid var(--vw-border);
+    padding:6px 16px;border-radius:4px;
+    transition:all .25s ease;
+    text-transform:uppercase;
   }
-  .nav-link:hover{color:var(--accent);border-color:var(--accent);box-shadow:0 0 18px var(--accent-glow)}
+  .nav-link:hover{
+    color:var(--vw-bg);background:var(--vw-cyan);
+    border-color:var(--vw-cyan);
+    box-shadow:0 0 22px rgba(1,205,254,.5);
+  }
 
-  /* ---------- Hero ---------- */
+  /* ============================================================
+     HERO
+     ============================================================ */
   .hero{padding:100px 0 70px;text-align:center;position:relative}
   .avatar-wrap{
     display:inline-block;position:relative;margin-bottom:28px;
     cursor:default;
   }
   .avatar{
-    width:132px;height:132px;border-radius:50%;
-    background:
-      radial-gradient(circle at 30% 30%,#1b1b28,#0a0a12);
-    border:2px solid var(--border-2);
+    width:136px;height:136px;border-radius:50%;
+    background:linear-gradient(135deg, var(--vw-purple), var(--vw-pink));
+    border:2px solid rgba(255,113,206,.6);
     display:flex;align-items:center;justify-content:center;
-    font-family:var(--mono);font-size:44px;font-weight:800;
-    color:var(--accent);
-    text-shadow:0 0 24px var(--accent-glow);
-    transition:transform .35s cubic-bezier(.2,.9,.3,1.4),border-color .35s ease,box-shadow .35s ease;
+    font-family:var(--vw-title);font-size:40px;font-weight:400;
+    color:#fff;
+    text-shadow:0 0 20px rgba(255,113,206,.8);
+    transition:transform .35s cubic-bezier(.2,.9,.3,1.4),box-shadow .35s ease;
     position:relative;z-index:2;
     user-select:none;
+    overflow:hidden;
   }
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .avatar-wrap:hover .avatar{
     transform:scale(1.05) rotate(-2deg);
-    border-color:var(--accent);
-    box-shadow:0 0 40px var(--accent-glow),inset 0 0 24px rgba(0,229,255,.08);
+    box-shadow:0 0 50px rgba(255,113,206,.5),inset 0 0 30px rgba(255,255,255,.15);
   }
   .avatar-ring{
-    position:absolute;inset:-10px;border-radius:50%;
-    border:1px dashed var(--border-2);
-    animation:spin 22s linear infinite;
-    opacity:.6;
+    position:absolute;inset:-12px;border-radius:50%;
+    border:1px dashed rgba(1,205,254,.4);
+    animation:spin 24s linear infinite;opacity:.7;
   }
   @keyframes spin{to{transform:rotate(360deg)}}
   .avatar-tip{
     position:absolute;left:50%;bottom:-34px;transform:translateX(-50%) translateY(6px);
-    font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.5px;
-    opacity:0;transition:all .3s ease;white-space:nowrap;pointer-events:none;
+    font-family:var(--vw-mono);font-size:13px;color:var(--vw-dim);
+    letter-spacing:1px;opacity:0;transition:all .3s ease;
+    white-space:nowrap;pointer-events:none;text-transform:uppercase;
   }
-  .avatar-wrap:hover .avatar-tip{opacity:1;transform:translateX(-50%) translateY(0);color:var(--accent)}
-
+  .avatar-wrap:hover .avatar-tip{
+    opacity:1;transform:translateX(-50%) translateY(0);color:var(--vw-cyan);
+  }
   .nickname{
-    font-family:var(--mono);font-weight:800;
-    font-size:clamp(32px,6vw,54px);
-    letter-spacing:-1px;line-height:1.05;
-    margin-bottom:14px;
-    background:linear-gradient(180deg,#fff 40%,#7a7a8e);
+    font-family:var(--vw-title);font-weight:400;
+    font-size:clamp(36px,7vw,64px);
+    letter-spacing:4px;line-height:1.05;
+    margin-bottom:16px;
+    background:linear-gradient(180deg, #fff 20%, var(--vw-pink) 60%, var(--vw-purple));
     -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 0 60px rgba(255,113,206,.3);
   }
   .tagline{
-    font-family:var(--mono);font-size:13px;color:var(--muted);
-    letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;
+    font-family:var(--vw-mono);font-size:15px;color:var(--vw-cyan);
+    letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;
   }
   .city{
-    font-family:var(--mono);font-size:12px;color:var(--dim);
-    letter-spacing:1px;margin-bottom:28px;
+    font-family:var(--vw-mono);font-size:14px;color:var(--vw-dim);
+    letter-spacing:2px;margin-bottom:28px;
   }
   .status{
     max-width:640px;margin:0 auto 32px;
-    font-size:17px;color:var(--muted);line-height:1.7;
+    font-size:17px;color:var(--vw-muted);line-height:1.75;
   }
-  .status strong{color:var(--text);font-weight:600}
-  .status .no{color:var(--danger);font-weight:600}
-
+  .status strong{color:var(--vw-text);font-weight:600}
+  .status .no{color:var(--vw-pink);font-weight:700}
   .steam-link{
     display:inline-flex;align-items:center;gap:10px;
-    font-family:var(--mono);font-size:13px;font-weight:700;
-    letter-spacing:.5px;text-decoration:none;
-    color:var(--text);
-    border:1px solid var(--border-2);
-    padding:12px 22px;border-radius:8px;
-    background:var(--panel);
+    font-family:var(--vw-mono);font-size:16px;font-weight:700;
+    letter-spacing:1px;text-decoration:none;
+    color:var(--vw-bg);
+    background:linear-gradient(90deg, var(--vw-cyan), var(--vw-mint));
+    padding:12px 26px;border-radius:6px;
     transition:all .25s ease;
+    text-transform:uppercase;
+    box-shadow:0 0 30px rgba(1,205,254,.3);
   }
   .steam-link:hover{
-    border-color:var(--accent);
-    color:var(--accent);
-    box-shadow:0 0 28px var(--accent-glow);
-    transform:translateY(-2px);
+    box-shadow:0 0 50px rgba(1,205,254,.6);
+    transform:translateY(-2px) scale(1.02);
   }
   .steam-link .arrow{transition:transform .25s ease}
-  .steam-link:hover .arrow{transform:translateX(3px)}
+  .steam-link:hover .arrow{transform:translateX(4px)}
   .steam-hint{
-    display:block;font-family:var(--mono);font-size:11px;
-    color:var(--dim);margin-top:12px;letter-spacing:.5px;
+    display:block;font-family:var(--vw-mono);font-size:13px;
+    color:var(--vw-dim);margin-top:14px;letter-spacing:1px;
   }
 
-  /* ---------- Заголовки секций ---------- */
+  /* ============================================================
+     ЗАГОЛОВКИ
+     ============================================================ */
   .sec-title{
-    font-family:var(--mono);font-size:12px;font-weight:700;
-    letter-spacing:3px;text-transform:uppercase;
-    color:var(--accent);margin-bottom:14px;
-    display:flex;align-items:center;gap:10px;
+    font-family:var(--vw-mono);font-size:14px;font-weight:700;
+    letter-spacing:4px;text-transform:uppercase;
+    color:var(--vw-pink);margin-bottom:14px;
+    display:flex;align-items:center;gap:12px;
   }
   .sec-title::before{
-    content:"";width:22px;height:1px;background:var(--accent);
-    box-shadow:0 0 8px var(--accent-glow);
+    content:"";width:24px;height:1px;background:var(--vw-pink);
+    box-shadow:0 0 10px var(--vw-pink);
   }
   h2{
-    font-size:clamp(24px,3.5vw,34px);
-    font-weight:800;letter-spacing:-.5px;
-    margin-bottom:32px;line-height:1.2;
+    font-family:var(--vw-title);font-weight:400;
+    font-size:clamp(24px,4vw,36px);
+    letter-spacing:2px;margin-bottom:36px;line-height:1.2;
+    color:var(--vw-text);
   }
 
-  /* ---------- Правила ---------- */
+  /* ============================================================
+     ПРАВИЛА
+     ============================================================ */
   .rules{list-style:none;counter-reset:r}
   .rules li{
     counter-increment:r;
     display:flex;gap:18px;align-items:flex-start;
-    padding:20px 22px;margin-bottom:10px;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    transition:all .25s ease;
-    position:relative;
+    padding:20px 24px;margin-bottom:10px;
+    background:var(--vw-panel);
+    border:1px solid var(--vw-border);
+    border-radius:8px;
+    transition:all .3s ease;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
   }
   .rules li::before{
     content:counter(r,decimal-leading-zero);
-    font-family:var(--mono);font-weight:800;font-size:13px;
-    color:var(--accent);flex-shrink:0;padding-top:2px;
-    min-width:28px;
+    font-family:var(--vw-mono);font-weight:700;font-size:18px;
+    color:var(--vw-cyan);flex-shrink:0;padding-top:1px;
+    min-width:30px;
   }
   .rules li:hover{
-    border-color:var(--border-2);
-    transform:translateX(4px);
-    background:var(--panel-2);
+    border-color:var(--vw-cyan);
+    transform:translateX(6px);
+    box-shadow:0 0 30px rgba(1,205,254,.1);
+    background:rgba(26,11,46,.9);
   }
   .rules li.key{
-    border-color:rgba(0,229,255,.35);
-    box-shadow:0 0 24px rgba(0,229,255,.06);
+    border-color:var(--vw-pink);
+    box-shadow:0 0 30px rgba(255,113,206,.12);
   }
-  .rules li strong{color:var(--text);font-weight:600}
+  .rules li strong{color:var(--vw-text);font-weight:700}
 
-  /* ---------- Причины (2 карточки) ---------- */
+  /* ============================================================
+     ПРИЧИНЫ
+     ============================================================ */
   .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .card{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:26px;
+    background:var(--vw-panel);
+    border:1px solid var(--vw-border);
+    border-radius:10px;
+    padding:28px;
     position:relative;overflow:hidden;
     transition:all .3s ease;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
   }
-  .card:hover{border-color:var(--border-2);transform:translateY(-3px)}
+  .card:hover{
+    border-color:var(--vw-purple);
+    transform:translateY(-4px);
+    box-shadow:0 10px 40px rgba(185,103,255,.15);
+  }
   .card::after{
     content:"";position:absolute;top:0;left:0;right:0;height:2px;
-    background:linear-gradient(90deg,transparent,var(--accent),transparent);
-    opacity:.4;
+    background:linear-gradient(90deg,transparent,var(--vw-cyan),transparent);
+    opacity:.6;
   }
-  .card.danger::after{background:linear-gradient(90deg,transparent,var(--danger),transparent)}
+  .card.danger::after{
+    background:linear-gradient(90deg,transparent,var(--vw-pink),transparent);
+  }
   .card-ico{
-    font-family:var(--mono);font-size:11px;font-weight:700;
-    letter-spacing:2px;text-transform:uppercase;
-    color:var(--accent);margin-bottom:14px;
+    font-family:var(--vw-mono);font-size:14px;font-weight:700;
+    letter-spacing:3px;text-transform:uppercase;
+    color:var(--vw-cyan);margin-bottom:16px;
   }
-  .card.danger .card-ico{color:var(--danger)}
-  .card h3{font-size:18px;font-weight:700;margin-bottom:12px;letter-spacing:-.3px}
-  .card p{color:var(--muted);font-size:15px}
+  .card.danger .card-ico{color:var(--vw-pink)}
+  .card h3{
+    font-family:var(--vw-sans);font-size:18px;font-weight:800;
+    margin-bottom:12px;letter-spacing:-.3px;
+  }
+  .card p{color:var(--vw-muted);font-size:15px}
   .card p + p{margin-top:10px}
 
-  /* ---------- "Если всё равно отправишь" ---------- */
+  /* ============================================================
+     ПОСЛЕДСТВИЯ
+     ============================================================ */
   .consequence{
-    background:linear-gradient(180deg,rgba(255,45,85,.06),transparent);
-    border:1px solid rgba(255,45,85,.25);
-    border-radius:12px;
-    padding:32px;
+    background:linear-gradient(180deg, rgba(255,113,206,.06), transparent);
+    border:1px solid rgba(255,113,206,.3);
+    border-radius:10px;
+    padding:34px;
   }
-  .consequence ul{list-style:none;display:grid;gap:14px}
+  .consequence ul{list-style:none;display:grid;gap:16px}
   .consequence li{
     display:flex;align-items:center;gap:14px;
-    font-size:15px;color:var(--text);
+    font-size:15px;color:var(--vw-text);
   }
   .consequence li .mark{
-    width:22px;height:22px;flex-shrink:0;
-    border:1.5px solid var(--danger);border-radius:5px;
+    width:24px;height:24px;flex-shrink:0;
+    border:1.5px solid var(--vw-pink);border-radius:5px;
     display:flex;align-items:center;justify-content:center;
-    color:var(--danger);font-family:var(--mono);font-size:13px;font-weight:800;
+    color:var(--vw-pink);font-family:var(--vw-mono);
+    font-size:15px;font-weight:700;
+    box-shadow:0 0 12px rgba(255,113,206,.2);
   }
 
-  /* ---------- Игры ---------- */
-  .games-grid{
+  /* ============================================================
+     ЛЮБИМАЯ ИГРА
+     ============================================================ */
+  .fav-game{
+    position:relative;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(255,113,206,.35);
+    background:
+      linear-gradient(135deg, rgba(255,45,85,.08) 0%, rgba(255,113,206,.06) 50%, rgba(185,103,255,.08) 100%),
+      var(--vw-panel);
+    padding:0;
+    transition:all .4s ease;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+  }
+  .fav-game::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg, var(--vw-red), var(--vw-pink), var(--vw-purple), var(--vw-cyan));
+    background-size:200% 100%;
+    animation:slide 6s linear infinite;
+  }
+  @keyframes slide{
+    0%{background-position:0 0}
+    100%{background-position:200% 0}
+  }
+  .fav-game:hover{
+    border-color:var(--vw-pink);
+    box-shadow:0 20px 60px rgba(255,113,206,.2);
+    transform:translateY(-3px);
+  }
+  .fav-inner{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-    gap:14px;
+    grid-template-columns:220px 1fr;
+    gap:0;
+    align-items:stretch;
   }
-  .game{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:18px;
-    transition:all .3s ease;
-    position:relative;overflow:hidden;
+  .fav-art{
+    background:
+      linear-gradient(160deg, #ff2d55 0%, #ff71ce 55%, #b967ff 100%);
+    display:flex;align-items:center;justify-content:center;
+    padding:32px;
+    position:relative;
+    overflow:hidden;
+    min-height:220px;
   }
-  .game:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,229,255,.08)}
-  .game-name{
-    font-family:var(--mono);font-weight:700;font-size:15px;
-    margin-bottom:8px;color:var(--text);
+  .fav-art::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size:24px 24px;
+    opacity:.6;
   }
-  .game-hours{
-    font-family:var(--mono);font-size:11px;letter-spacing:1px;
-    color:var(--accent);margin-bottom:10px;text-transform:uppercase;
+  .fav-art-text{
+    position:relative;z-index:2;
+    font-family:var(--vw-title);
+    font-size:34px;line-height:1;
+    letter-spacing:2px;
+    color:#fff;
+    text-align:center;
+    text-shadow:0 4px 20px rgba(0,0,0,.35);
+    font-weight:400;
   }
-  .game-note{font-size:13px;color:var(--muted);line-height:1.5}
-  .games-hint{
-    margin-top:24px;font-family:var(--mono);font-size:12px;
-    color:var(--dim);text-align:center;letter-spacing:.5px;
-    border-top:1px dashed var(--border-2);padding-top:20px;
+  .fav-art-text span{
+    display:block;
+    font-size:14px;
+    letter-spacing:6px;
+    margin-top:14px;
+    font-family:var(--vw-mono);
+    opacity:.9;
+  }
+  .fav-content{
+    padding:32px 36px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .fav-label{
+    font-family:var(--vw-mono);font-size:13px;
+    letter-spacing:4px;text-transform:uppercase;
+    color:var(--vw-cyan);margin-bottom:12px;
+  }
+  .fav-title{
+    font-family:var(--vw-title);font-weight:400;
+    font-size:clamp(26px,4vw,38px);
+    letter-spacing:2px;line-height:1.1;
+    margin-bottom:18px;
+    background:linear-gradient(180deg, #fff 30%, var(--vw-pink));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .fav-desc{
+    color:var(--vw-muted);font-size:15px;line-height:1.7;
+    max-width:520px;
+  }
+  .fav-tags{
+    display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;
+  }
+  .fav-tag{
+    font-family:var(--vw-mono);font-size:13px;
+    letter-spacing:1px;text-transform:uppercase;
+    color:var(--vw-cyan);
+    border:1px solid rgba(1,205,254,.4);
+    padding:4px 12px;border-radius:4px;
+    background:rgba(1,205,254,.06);
+  }
+  .fav-quote{
+    margin-top:22px;
+    padding-left:16px;
+    border-left:2px solid var(--vw-pink);
+    font-family:var(--vw-mono);
+    font-size:16px;
+    color:var(--vw-pink);
+    letter-spacing:.5px;
+    font-style:italic;
   }
 
-  /* ---------- Счётчик ---------- */
+  /* ============================================================
+     СЧЁТЧИК
+     ============================================================ */
   .counter-grid{
     display:grid;grid-template-columns:1fr 1fr;gap:16px;
   }
   .counter{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:30px 24px;text-align:center;
-    transition:border-color .3s ease;
+    background:var(--vw-panel);
+    border:1px solid var(--vw-border);
+    border-radius:10px;
+    padding:34px 24px;text-align:center;
+    transition:all .3s ease;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
   }
-  .counter:hover{border-color:var(--border-2)}
+  .counter:hover{
+    border-color:var(--vw-purple);
+    box-shadow:0 0 40px rgba(185,103,255,.12);
+  }
   .counter .num{
-    font-family:var(--mono);font-weight:800;
-    font-size:clamp(38px,7vw,58px);
-    line-height:1;letter-spacing:-2px;
-    margin-bottom:10px;
+    font-family:var(--vw-mono);font-weight:700;
+    font-size:clamp(42px,8vw,64px);
+    line-height:1;letter-spacing:-1px;
+    margin-bottom:12px;
     font-variant-numeric:tabular-nums;
   }
-  .counter.rejected .num{color:var(--danger);text-shadow:0 0 30px var(--danger-glow)}
-  .counter.accepted .num{color:var(--ok);text-shadow:0 0 30px rgba(38,217,127,.3)}
+  .counter.rejected .num{
+    color:var(--vw-pink);
+    text-shadow:0 0 35px rgba(255,113,206,.4);
+  }
+  .counter.accepted .num{
+    color:var(--vw-mint);
+    text-shadow:0 0 35px rgba(5,255,161,.4);
+  }
   .counter .label{
-    font-family:var(--mono);font-size:11px;color:var(--muted);
-    letter-spacing:2px;text-transform:uppercase;
+    font-family:var(--vw-mono);font-size:13px;color:var(--vw-muted);
+    letter-spacing:3px;text-transform:uppercase;
   }
 
-  /* ---------- FAQ ---------- */
+  /* ============================================================
+     FAQ
+     ============================================================ */
   .faq{display:grid;gap:10px}
   .faq-item{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:10px;
+    background:var(--vw-panel);
+    border:1px solid var(--vw-border);
+    border-radius:8px;
     overflow:hidden;
-    transition:border-color .25s ease;
+    transition:border-color .3s ease;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
   }
-  .faq-item.open{border-color:var(--border-2)}
+  .faq-item.open{border-color:var(--vw-purple)}
   .faq-q{
     width:100%;text-align:left;
-    background:none;border:none;color:var(--text);
-    font-family:var(--sans);font-size:15px;font-weight:600;
-    padding:18px 22px;cursor:pointer;
+    background:none;border:none;color:var(--vw-text);
+    font-family:var(--vw-sans);font-size:15px;font-weight:600;
+    padding:20px 24px;cursor:pointer;
     display:flex;justify-content:space-between;align-items:center;gap:16px;
     transition:color .2s ease;
   }
-  .faq-q:hover{color:var(--accent)}
+  .faq-q:hover{color:var(--vw-cyan)}
   .faq-q .plus{
-    font-family:var(--mono);font-size:18px;color:var(--accent);
+    font-family:var(--vw-mono);font-size:22px;color:var(--vw-cyan);
     transition:transform .3s ease;flex-shrink:0;
+    line-height:1;
   }
   .faq-item.open .faq-q .plus{transform:rotate(45deg)}
   .faq-a{
@@ -371,53 +530,76 @@
     transition:max-height .35s ease;
   }
   .faq-a-inner{
-    padding:0 22px 20px;color:var(--muted);font-size:14.5px;
-    border-top:1px solid var(--border);padding-top:16px;margin:0 22px 20px;
+    padding:0 24px 22px;color:var(--vw-muted);font-size:14.5px;
+    border-top:1px solid var(--vw-border);
+    padding-top:18px;margin:0 24px 22px;
     padding-left:0;padding-right:0;
   }
 
-  /* ---------- Безопасность ---------- */
+  /* ============================================================
+     БЕЗОПАСНОСТЬ
+     ============================================================ */
   .security{
-    background:linear-gradient(180deg,rgba(255,176,32,.05),transparent);
-    border:1px solid rgba(255,176,32,.25);
-    border-radius:12px;padding:32px;
-    display:flex;gap:20px;align-items:flex-start;
+    background:linear-gradient(180deg, rgba(255,251,150,.04), transparent);
+    border:1px solid rgba(255,251,150,.25);
+    border-radius:10px;padding:34px;
+    display:flex;gap:22px;align-items:flex-start;
   }
   .security .shield{
-    font-family:var(--mono);font-size:32px;color:var(--warn);
+    font-family:var(--vw-mono);font-size:36px;color:var(--vw-sun);
     flex-shrink:0;line-height:1;
+    text-shadow:0 0 20px rgba(255,251,150,.4);
   }
-  .security h3{font-size:17px;font-weight:700;margin-bottom:10px;color:var(--text)}
-  .security p{color:var(--muted);font-size:14.5px}
-  .security p strong{color:var(--warn)}
+  .security h3{
+    font-size:17px;font-weight:800;margin-bottom:12px;
+    color:var(--vw-text);
+  }
+  .security p{color:var(--vw-muted);font-size:14.5px}
+  .security p strong{color:var(--vw-sun);font-weight:700}
 
-  /* ---------- Футер ---------- */
+  /* ============================================================
+     ФУТЕР
+     ============================================================ */
   footer{
     padding:50px 0 60px;text-align:center;
-    border-top:1px solid var(--border);
+    border-top:1px solid var(--vw-border);
     margin-top:40px;
   }
   footer p{
-    font-family:var(--mono);font-size:12px;color:var(--dim);
-    letter-spacing:.5px;line-height:2;
+    font-family:var(--vw-mono);font-size:14px;color:var(--vw-dim);
+    letter-spacing:1px;line-height:2.2;
   }
-  footer .accent{color:var(--accent)}
+  footer .accent{color:var(--vw-pink)}
 
-  /* ---------- Появление при скролле ---------- */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.9,.3,1)}
+  /* ============================================================
+     АНИМАЦИИ
+     ============================================================ */
+  .reveal{
+    opacity:0;transform:translateY(28px);
+    transition:opacity .8s ease, transform .8s cubic-bezier(.2,.9,.3,1);
+  }
   .reveal.show{opacity:1;transform:none}
 
-  /* ---------- Мобильная адаптация ---------- */
+  /* ============================================================
+     МОБИЛЬНАЯ АДАПТАЦИЯ
+     ============================================================ */
+  @media (max-width:720px){
+    .fav-inner{grid-template-columns:1fr}
+    .fav-art{min-height:160px;padding:24px}
+    .fav-art-text{font-size:26px}
+    .fav-content{padding:26px 24px}
+  }
   @media (max-width:640px){
     section{padding:56px 0}
     .hero{padding:70px 0 50px}
     .why-grid,.counter-grid{grid-template-columns:1fr}
-    .avatar{width:110px;height:110px;font-size:38px}
-    .security{flex-direction:column;gap:14px;padding:24px}
-    .consequence{padding:24px}
+    .avatar{width:112px;height:112px;font-size:34px}
+    .security{flex-direction:column;gap:14px;padding:26px}
+    .consequence{padding:26px}
     .nav{padding:14px 18px}
     .wrap{padding:0 18px}
     .rules li{padding:16px}
+    .nickname{letter-spacing:2px}
   }
 </style>
 </head>
@@ -432,8 +614,8 @@
 <!-- ============ HEADER ============ -->
 <header>
   <div class="nav">
-    <div class="logo"><span class="dot"></span>STATUS://NO_RANDOM</div>
-    <a class="nav-link" href="https://steamcommunity.com/" target="_blank" rel="noopener">STEAM ↗</a>
+    <div class="logo"><span class="dot"></span>ＮＩＡＮＯＲＡＴ // ＳＴＡＴＵＳ</div>
+    <a class="nav-link" href="https://steamcommunity.com/id/nianorat/" target="_blank" rel="noopener">STEAM ↗</a>
   </div>
 </header>
 
@@ -447,7 +629,7 @@
     </div>
 
     <div class="tagline">Открытый профиль · Закрытый френдлист</div>
-    <h1 class="nickname">Твой_Ник</h1>
+    <h1 class="nickname">NIANORAT</h1>
     <div class="city">📍 Твой город</div>
 
     <p class="status">
@@ -455,7 +637,7 @@
       я <span class="no">не принимаю</span>. <strong>Только если мы случайно пересеклись в матче.</strong>
     </p>
 
-    <a class="steam-link" href="https://steamcommunity.com/" target="_blank" rel="noopener">
+    <a class="steam-link" href="https://steamcommunity.com/id/nianorat/" target="_blank" rel="noopener">
       Профиль Steam <span class="arrow">→</span>
     </a>
     <span class="steam-hint">Ссылка для справки. Заявки игнорирую.</span>
@@ -548,37 +730,36 @@
 
 <div class="divider"></div>
 
-<!-- ============ ИГРЫ ============ -->
+<!-- ============ ЛЮБИМАЯ ИГРА ============ -->
 <section class="reveal">
   <div class="wrap">
-    <div class="sec-title">Витрина</div>
-    <h2>Во что я играю</h2>
+    <div class="sec-title">Фаворит</div>
+    <h2>Любимая игра</h2>
 
-    <div class="games-grid">
-      <div class="game">
-        <div class="game-name">Team Fortress 2</div>
-        <div class="game-hours">3000+ часов</div>
-        <div class="game-note">Основная игра. Дорогой инвентарь. Скам-фильтр встроен.</div>
+    <div class="fav-game">
+      <div class="fav-inner">
+        <div class="fav-art">
+          <div class="fav-art-text">
+            MIRROR'S<br>EDGE
+            <span>2008</span>
+          </div>
+        </div>
+        <div class="fav-content">
+          <div class="fav-label">// Favorite of all time</div>
+          <div class="fav-title">Mirror's Edge</div>
+          <p class="fav-desc">
+            Паркур в стерильном мегаполисе, где всё белое, а ты — красная точка
+            на его фоне. Никаких загрузок, никаких подсказок, только движение и
+            чувство потока. Игра, которая научила меня, что скорость — это стиль.
+          </p>
+          <div class="fav-tags">
+            <span class="fav-tag">Parkour</span>
+            <span class="fav-tag">First-Person</span>
+            <span class="fav-tag">Dystopia</span>
+          </div>
+          <div class="fav-quote">"Run."</div>
+        </div>
       </div>
-      <div class="game">
-        <div class="game-name">Dota 2</div>
-        <div class="game-hours">2000+ часов</div>
-        <div class="game-note">Всё ещё не умею играть. Но продолжаю.</div>
-      </div>
-      <div class="game">
-        <div class="game-name">CS2</div>
-        <div class="game-hours">1200+ часов</div>
-        <div class="game-note">Стреляю по своим. Иногда попадаю по чужим.</div>
-      </div>
-      <div class="game">
-        <div class="game-name">Dark Souls</div>
-        <div class="game-hours">500+ часов</div>
-        <div class="game-note">Страдаю добровольно. Уже третий раз.</div>
-      </div>
-    </div>
-
-    <div class="games-hint">
-      Это список для справки. Он не означает, что я жду заявок.
     </div>
   </div>
 </section>
@@ -616,6 +797,10 @@
         <button class="faq-q">Почему профиль открыт, если ты никого не добавляешь? <span class="plus">+</span></button>
         <div class="faq-a"><div class="faq-a-inner">Чтобы вы видели мои игры, часы и достижения. Это витрина, а не дверь.</div></div>
       </div>
+      <div class="faq-item">
+        <button class="faq-q">Почему Mirror's Edge? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Потому что это единственная игра, где скорость — не механика, а образ мысли. И потому что красное на белом — самая красивая цветовая схема в истории игр.</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -650,20 +835,18 @@
 </footer>
 
 <script>
-  /* ---------- FAQ-аккордеон ---------- */
+  /* FAQ-аккордеон */
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.parentElement;
       const answer = item.querySelector('.faq-a');
       const isOpen = item.classList.contains('open');
 
-      // Закрыть все
       document.querySelectorAll('.faq-item').forEach(i => {
         i.classList.remove('open');
         i.querySelector('.faq-a').style.maxHeight = null;
       });
 
-      // Открыть текущий
       if (!isOpen) {
         item.classList.add('open');
         answer.style.maxHeight = answer.scrollHeight + 'px';
@@ -671,7 +854,7 @@
     });
   });
 
-  /* ---------- Появление секций при скролле ---------- */
+  /* Появление секций при скролле */
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -680,16 +863,15 @@
       }
     });
   }, { threshold: 0.12 });
-
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-  /* ---------- Анимация счётчиков ---------- */
+  /* Счётчики */
   const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       const el = e.target;
       const target = parseInt(el.dataset.target, 10);
-      const duration = 1400;
+      const duration = 1600;
       const start = performance.now();
 
       const tick = (now) => {
@@ -703,10 +885,9 @@
       counterObserver.unobserve(el);
     });
   }, { threshold: 0.5 });
-
   document.querySelectorAll('.counter .num').forEach(el => counterObserver.observe(el));
 
-  /* ---------- Легкий параллакс аватара за мышью ---------- */
+  /* Параллакс аватара */
   const avatarWrap = document.querySelector('.avatar-wrap');
   const avatar = document.querySelector('.avatar');
   if (avatarWrap && window.matchMedia('(hover: hover)').matches) {
@@ -714,7 +895,7 @@
       const rect = avatarWrap.getBoundingClientRect();
       const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
       const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-      avatar.style.transform = `scale(1.05) rotate(${x * 4}deg) translate(${x * 6}px, ${y * 6}px)`;
+      avatar.style.transform = `scale(1.05) rotate(${x * 4}deg) translate(${x * 8}px, ${y * 8}px)`;
     });
     avatarWrap.addEventListener('mouseleave', () => {
       avatar.style.transform = '';
