@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NIANORAT // Открытый профиль. Закрытый френдлист.</title>
+<title>NianoRat // Открытый профиль. Закрытый френдлист.</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=VT323&family=Major+Mono+Display&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=VT323&family=Jura:wght@400;500;700&family=Inter:wght@400;500;600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=Jura:wght@400;500;700&family=Inter:wght@400;500;600;800&display=swap" media="print" onload="this.media='all'">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=Jura:wght@400;500;700&family=Inter:wght@400;500;600;800&display=swap">
+</noscript>
+
 <style>
-  /* ============================================================
-     VAPORWAVE PALETTE
-     ============================================================ */
   :root{
     --vw-pink:   #ff71ce;
     --vw-cyan:   #01cdfe;
@@ -25,9 +28,9 @@
     --vw-text:   #f0e6ff;
     --vw-muted:  #a89bbd;
     --vw-dim:    #6b5d7a;
-    --vw-mono:   'VT323', monospace;
-    --vw-title:  'Major Mono Display', monospace;
-    --vw-sans:   'Inter', system-ui, sans-serif;
+    --vw-mono:   'VT323', ui-monospace, 'Consolas', monospace;
+    --vw-title:  'Jura', system-ui, sans-serif;
+    --vw-sans:   'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
@@ -43,9 +46,7 @@
     position:relative;
   }
 
-  /* ============================================================
-     ФОН
-     ============================================================ */
+  /* ФОН */
   .bg-fx{
     position:fixed;inset:0;z-index:-1;overflow:hidden;
     background:
@@ -74,8 +75,11 @@
     100%{background-position:0 52px}
   }
   .glow{
-    position:absolute;border-radius:50%;filter:blur(130px);opacity:.35;
+    position:absolute;border-radius:50%;
+    filter:blur(80px);
+    opacity:.35;
     animation:drift 20s ease-in-out infinite alternate;
+    will-change:transform;
   }
   .glow.a{width:500px;height:500px;background:var(--vw-purple);top:-160px;left:-120px;}
   .glow.b{width:440px;height:440px;background:var(--vw-pink);top:40%;right:-160px;animation-delay:-7s;}
@@ -85,9 +89,6 @@
     100%{transform:translate(50px,-40px) scale(1.12)}
   }
 
-  /* ============================================================
-     ОБЩЕЕ
-     ============================================================ */
   .wrap{max-width:920px;margin:0 auto;padding:0 24px}
   section{padding:80px 0;position:relative}
   .divider{
@@ -96,9 +97,57 @@
     max-width:920px;margin:0 auto;opacity:.4;
   }
 
-  /* ============================================================
-     HEADER
-     ============================================================ */
+  /* INTRO */
+  .intro{
+    position:fixed;inset:0;z-index:9999;
+    background:var(--vw-bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 20px;
+    transition:opacity .7s ease;
+  }
+  .intro.hide{opacity:0;pointer-events:none}
+  .intro-line{
+    display:flex;
+    align-items:baseline;
+    justify-content:center;
+    gap:clamp(10px,2vw,24px);
+    font-family:var(--vw-title);
+    font-weight:500;
+    letter-spacing:clamp(1px,0.4vw,2px);
+    line-height:1;
+    white-space:nowrap;
+  }
+  .intro-hi,.intro-me,.intro-nick{
+    opacity:0;
+    transition:opacity .55s ease;
+    display:inline-block;
+    font-size:clamp(36px,8vw,96px);
+  }
+  .intro-hi.show,.intro-me.show,.intro-nick.show{opacity:1}
+  .intro-hi{color:var(--vw-text); font-weight:500;}
+  .intro-me{color:var(--vw-muted); font-weight:500;}
+  .intro-nick{
+    font-weight:700;
+    background:linear-gradient(180deg, #fff 20%, var(--vw-pink) 60%, var(--vw-purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* HERO-АНИМАЦИИ */
+  .hero-anim{ opacity:0; transition:opacity .7s ease; }
+  .hero-anim.show{opacity:1}
+  .hero-anim.shift{
+    transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s cubic-bezier(.2,.9,.3,1);
+  }
+  .hero-anim.shift.show{transform:none}
+  .hero-anim.d1.show{transition-delay:.05s}
+  .hero-anim.d2.show{transition-delay:.20s}
+  .hero-anim.d3.show{transition-delay:.35s}
+  .hero-anim.d4.show{transition-delay:.50s}
+
+  /* HEADER */
   header{
     position:sticky;top:0;z-index:50;
     backdrop-filter:blur(16px);
@@ -111,8 +160,8 @@
     padding:16px 24px;max-width:920px;margin:0 auto;
   }
   .logo{
-    font-family:var(--vw-title);font-weight:400;font-size:13px;
-    letter-spacing:1px;color:var(--vw-text);
+    font-family:var(--vw-title);font-weight:700;font-size:15px;
+    letter-spacing:.5px;color:var(--vw-text);
     display:flex;align-items:center;gap:10px;
   }
   .logo .dot{
@@ -138,10 +187,8 @@
     box-shadow:0 0 22px rgba(1,205,254,.5);
   }
 
-  /* ============================================================
-     HERO
-     ============================================================ */
-  .hero{padding:100px 0 70px;text-align:center;position:relative}
+  /* HERO */
+  .hero{padding:100px 0 80px;text-align:center;position:relative}
   .avatar-wrap{
     display:inline-block;position:relative;margin-bottom:28px;
     cursor:default;
@@ -151,18 +198,15 @@
     background:linear-gradient(135deg, var(--vw-purple), var(--vw-pink));
     border:2px solid rgba(255,113,206,.6);
     display:flex;align-items:center;justify-content:center;
-    font-family:var(--vw-title);font-size:40px;font-weight:400;
-    color:#fff;
-    text-shadow:0 0 20px rgba(255,113,206,.8);
     transition:transform .35s cubic-bezier(.2,.9,.3,1.4),box-shadow .35s ease;
     position:relative;z-index:2;
-    user-select:none;
     overflow:hidden;
+    box-shadow:0 0 40px rgba(255,113,206,.25);
   }
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .avatar-wrap:hover .avatar{
-    transform:scale(1.05) rotate(-2deg);
-    box-shadow:0 0 50px rgba(255,113,206,.5),inset 0 0 30px rgba(255,255,255,.15);
+    transform:scale(1.05);
+    box-shadow:0 0 50px rgba(255,113,206,.5);
   }
   .avatar-ring{
     position:absolute;inset:-12px;border-radius:50%;
@@ -170,63 +214,67 @@
     animation:spin 24s linear infinite;opacity:.7;
   }
   @keyframes spin{to{transform:rotate(360deg)}}
+
   .avatar-tip{
-    position:absolute;left:50%;bottom:-34px;transform:translateX(-50%) translateY(6px);
-    font-family:var(--vw-mono);font-size:13px;color:var(--vw-dim);
-    letter-spacing:1px;opacity:0;transition:all .3s ease;
-    white-space:nowrap;pointer-events:none;text-transform:uppercase;
+    position:absolute;
+    left:50%;
+    top:-58px;
+    transform:translateX(-50%) translateY(-6px);
+    font-family:var(--vw-mono);
+    font-size:13px;
+    color:var(--vw-dim);
+    letter-spacing:1px;
+    opacity:0;
+    transition:all .3s ease;
+    pointer-events:none;
+    text-transform:uppercase;
+    text-align:center;
+    max-width:320px;
+    width:max-content;
+    line-height:1.3;
   }
   .avatar-wrap:hover .avatar-tip{
-    opacity:1;transform:translateX(-50%) translateY(0);color:var(--vw-cyan);
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+    color:var(--vw-cyan);
   }
+
   .nickname{
-    font-family:var(--vw-title);font-weight:400;
-    font-size:clamp(36px,7vw,64px);
-    letter-spacing:4px;line-height:1.05;
+    font-family:var(--vw-title);font-weight:700;
+    font-size:clamp(40px,8vw,72px);
+    letter-spacing:1px;line-height:1.1;
     margin-bottom:16px;
     background:linear-gradient(180deg, #fff 20%, var(--vw-pink) 60%, var(--vw-purple));
     -webkit-background-clip:text;background-clip:text;color:transparent;
     text-shadow:0 0 60px rgba(255,113,206,.3);
   }
-  .tagline{
-    font-family:var(--vw-mono);font-size:15px;color:var(--vw-cyan);
-    letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;
-  }
-  .city{
-    font-family:var(--vw-mono);font-size:14px;color:var(--vw-dim);
-    letter-spacing:2px;margin-bottom:28px;
-  }
-  .status{
-    max-width:640px;margin:0 auto 32px;
-    font-size:17px;color:var(--vw-muted);line-height:1.75;
-  }
-  .status strong{color:var(--vw-text);font-weight:600}
-  .status .no{color:var(--vw-pink);font-weight:700}
-  .steam-link{
-    display:inline-flex;align-items:center;gap:10px;
-    font-family:var(--vw-mono);font-size:16px;font-weight:700;
-    letter-spacing:1px;text-decoration:none;
-    color:var(--vw-bg);
-    background:linear-gradient(90deg, var(--vw-cyan), var(--vw-mint));
-    padding:12px 26px;border-radius:6px;
-    transition:all .25s ease;
-    text-transform:uppercase;
-    box-shadow:0 0 30px rgba(1,205,254,.3);
-  }
-  .steam-link:hover{
-    box-shadow:0 0 50px rgba(1,205,254,.6);
-    transform:translateY(-2px) scale(1.02);
-  }
-  .steam-link .arrow{transition:transform .25s ease}
-  .steam-link:hover .arrow{transform:translateX(4px)}
-  .steam-hint{
-    display:block;font-family:var(--vw-mono);font-size:13px;
-    color:var(--vw-dim);margin-top:14px;letter-spacing:1px;
-  }
 
-  /* ============================================================
-     ЗАГОЛОВКИ
-     ============================================================ */
+  .city{
+    font-family:var(--vw-mono);font-size:16px;color:var(--vw-dim);
+    letter-spacing:2px;margin-bottom:26px;
+  }
+  .city a{
+    color:var(--vw-cyan);text-decoration:none;
+    border-bottom:1px dashed rgba(1,205,254,.4);
+    transition:all .2s ease;
+  }
+  .city a:hover{
+    color:var(--vw-pink);
+    border-color:var(--vw-pink);
+    text-shadow:0 0 12px rgba(255,113,206,.5);
+  }
+  .motto{
+    max-width:700px;margin:0 auto;
+    font-family:var(--vw-mono);
+    font-size:clamp(20px,3vw,26px);
+    line-height:1.4;
+    color:var(--vw-text);
+    letter-spacing:.5px;
+  }
+  .motto .em{color:var(--vw-pink)}
+  .motto .em2{color:var(--vw-cyan)}
+
+  /* ЗАГОЛОВКИ */
   .sec-title{
     font-family:var(--vw-mono);font-size:14px;font-weight:700;
     letter-spacing:4px;text-transform:uppercase;
@@ -238,111 +286,164 @@
     box-shadow:0 0 10px var(--vw-pink);
   }
   h2{
-    font-family:var(--vw-title);font-weight:400;
-    font-size:clamp(24px,4vw,36px);
-    letter-spacing:2px;margin-bottom:36px;line-height:1.2;
+    font-family:var(--vw-title);font-weight:700;
+    font-size:clamp(26px,4.5vw,40px);
+    letter-spacing:.5px;margin-bottom:36px;line-height:1.2;
     color:var(--vw-text);
   }
 
-  /* ============================================================
-     ПРАВИЛА
-     ============================================================ */
-  .rules{list-style:none;counter-reset:r}
-  .rules li{
-    counter-increment:r;
-    display:flex;gap:18px;align-items:flex-start;
-    padding:20px 24px;margin-bottom:10px;
+  /* О ЗАЯВКАХ */
+  .axiom{
+    background:linear-gradient(180deg, rgba(255,113,206,.08), rgba(255,113,206,.02));
+    border:1px solid rgba(255,113,206,.4);
+    border-left:3px solid var(--vw-pink);
+    border-radius:10px;
+    padding:28px 32px;
+    margin-bottom:28px;
+    font-family:var(--vw-mono);
+    font-size:clamp(18px,2.4vw,24px);
+    line-height:1.45;
+    color:var(--vw-text);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    position:relative;
+  }
+  .axiom::before{
+    content:"⚠ АКСИОМА";
+    position:absolute;top:-10px;left:24px;
+    background:var(--vw-bg);
+    font-family:var(--vw-mono);
+    font-size:12px;letter-spacing:3px;
+    color:var(--vw-pink);
+    padding:2px 12px;
+    border:1px solid rgba(255,113,206,.4);
+    border-radius:4px;
+  }
+  .axiom strong{color:var(--vw-pink);font-weight:700}
+
+  .friend-text{
+    color:var(--vw-muted);
+    font-size:16px;
+    line-height:1.85;
+    margin-bottom:22px;
+  }
+  .friend-text strong{color:var(--vw-text)}
+
+  .why-subtitle{
+    font-family:var(--vw-mono);
+    color:var(--vw-cyan);
+    font-size:18px;
+    letter-spacing:2px;
+    margin:36px 0 20px;
+    text-transform:uppercase;
+  }
+
+  .why-list{ display:grid;gap:14px; counter-reset:wl; }
+  .why-list-item{
+    counter-increment:wl;
+    display:flex;gap:20px;align-items:flex-start;
+    padding:20px 24px;
     background:var(--vw-panel);
     border:1px solid var(--vw-border);
     border-radius:8px;
-    transition:all .3s ease;
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
+    transition:all .3s ease;
   }
-  .rules li::before{
-    content:counter(r,decimal-leading-zero);
-    font-family:var(--vw-mono);font-weight:700;font-size:18px;
-    color:var(--vw-cyan);flex-shrink:0;padding-top:1px;
-    min-width:30px;
-  }
-  .rules li:hover{
+  .why-list-item:hover{
     border-color:var(--vw-cyan);
     transform:translateX(6px);
-    box-shadow:0 0 30px rgba(1,205,254,.1);
-    background:rgba(26,11,46,.9);
   }
-  .rules li.key{
-    border-color:var(--vw-pink);
-    box-shadow:0 0 30px rgba(255,113,206,.12);
+  .why-list-item::before{
+    content:counter(wl);
+    font-family:var(--vw-title);
+    font-weight:700;
+    font-size:32px;
+    color:var(--vw-cyan);
+    flex-shrink:0;line-height:1;
+    padding-top:2px;
+    min-width:36px;
   }
-  .rules li strong{color:var(--vw-text);font-weight:700}
+  .why-list-item span{color:var(--vw-text);font-size:15.5px;line-height:1.7}
+  .why-list-item strong{color:var(--vw-pink)}
 
-  /* ============================================================
-     ПРИЧИНЫ
-     ============================================================ */
-  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .card{
+  .consequence-block{
+    margin-top:36px;
+    padding:30px 32px;
+    background:linear-gradient(180deg, rgba(255,45,85,.06), transparent);
+    border:1px solid rgba(255,45,85,.3);
+    border-radius:10px;
+  }
+  .consequence-block h3{
+    font-family:var(--vw-mono);
+    color:var(--vw-pink);
+    font-size:18px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:20px;
+  }
+  .consequence-block ul{ list-style:none;display:grid;gap:14px; }
+  .consequence-block li{
+    display:flex;gap:14px;align-items:flex-start;
+    font-size:15.5px;color:var(--vw-text);
+  }
+  .consequence-block li::before{
+    content:"✕";
+    color:var(--vw-pink);
+    font-family:var(--vw-mono);
+    font-weight:700;
+    flex-shrink:0;
+    width:20px;
+    text-align:center;
+  }
+
+  /* О СЕБЕ */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .about-card{
     background:var(--vw-panel);
     border:1px solid var(--vw-border);
     border-radius:10px;
-    padding:28px;
-    position:relative;overflow:hidden;
+    padding:26px;
     transition:all .3s ease;
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
+    position:relative;
+    overflow:hidden;
   }
-  .card:hover{
+  .about-card:hover{
     border-color:var(--vw-purple);
-    transform:translateY(-4px);
+    transform:translateY(-3px);
     box-shadow:0 10px 40px rgba(185,103,255,.15);
   }
-  .card::after{
-    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  .about-card::after{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:2px;
     background:linear-gradient(90deg,transparent,var(--vw-cyan),transparent);
-    opacity:.6;
+    opacity:.5;
   }
-  .card.danger::after{
-    background:linear-gradient(90deg,transparent,var(--vw-pink),transparent);
-  }
-  .card-ico{
-    font-family:var(--vw-mono);font-size:14px;font-weight:700;
+  .about-card.wide{grid-column:1 / -1}
+  .about-card .card-ico{
+    font-family:var(--vw-mono);font-size:13px;
     letter-spacing:3px;text-transform:uppercase;
-    color:var(--vw-cyan);margin-bottom:16px;
+    color:var(--vw-cyan);margin-bottom:14px;
   }
-  .card.danger .card-ico{color:var(--vw-pink)}
-  .card h3{
-    font-family:var(--vw-sans);font-size:18px;font-weight:800;
-    margin-bottom:12px;letter-spacing:-.3px;
+  .about-card h3{
+    font-family:var(--vw-sans);font-size:17px;font-weight:800;
+    margin-bottom:10px;color:var(--vw-text);
+    letter-spacing:-.2px;
   }
-  .card p{color:var(--vw-muted);font-size:15px}
-  .card p + p{margin-top:10px}
+  .about-card p{
+    color:var(--vw-muted);font-size:15px;line-height:1.7;
+  }
+  .about-card p + p{margin-top:10px}
+  .about-card .hl{color:var(--vw-pink);font-weight:600}
+  .about-card .hl-cyan{color:var(--vw-cyan);font-weight:600}
 
-  /* ============================================================
-     ПОСЛЕДСТВИЯ
-     ============================================================ */
-  .consequence{
-    background:linear-gradient(180deg, rgba(255,113,206,.06), transparent);
-    border:1px solid rgba(255,113,206,.3);
-    border-radius:10px;
-    padding:34px;
-  }
-  .consequence ul{list-style:none;display:grid;gap:16px}
-  .consequence li{
-    display:flex;align-items:center;gap:14px;
-    font-size:15px;color:var(--vw-text);
-  }
-  .consequence li .mark{
-    width:24px;height:24px;flex-shrink:0;
-    border:1.5px solid var(--vw-pink);border-radius:5px;
-    display:flex;align-items:center;justify-content:center;
-    color:var(--vw-pink);font-family:var(--vw-mono);
-    font-size:15px;font-weight:700;
-    box-shadow:0 0 12px rgba(255,113,206,.2);
-  }
-
-  /* ============================================================
-     ЛЮБИМАЯ ИГРА
-     ============================================================ */
+  /* ЛЮБИМАЯ ИГРА */
   .fav-game{
     position:relative;
     border-radius:14px;
@@ -351,7 +452,6 @@
     background:
       linear-gradient(135deg, rgba(255,45,85,.08) 0%, rgba(255,113,206,.06) 50%, rgba(185,103,255,.08) 100%),
       var(--vw-panel);
-    padding:0;
     transition:all .4s ease;
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
@@ -362,6 +462,7 @@
     background:linear-gradient(90deg, var(--vw-red), var(--vw-pink), var(--vw-purple), var(--vw-cyan));
     background-size:200% 100%;
     animation:slide 6s linear infinite;
+    z-index:3;
   }
   @keyframes slide{
     0%{background-position:0 0}
@@ -374,45 +475,27 @@
   }
   .fav-inner{
     display:grid;
-    grid-template-columns:220px 1fr;
-    gap:0;
+    grid-template-columns:280px 1fr;
     align-items:stretch;
   }
   .fav-art{
-    background:
-      linear-gradient(160deg, #ff2d55 0%, #ff71ce 55%, #b967ff 100%);
-    display:flex;align-items:center;justify-content:center;
-    padding:32px;
     position:relative;
     overflow:hidden;
-    min-height:220px;
+    background:#1a0b2e;
+    min-height:240px;
   }
-  .fav-art::before{
+  .fav-art img{
+    width:100%;height:100%;
+    object-fit:cover;display:block;
+    filter:saturate(1.05) contrast(1.05);
+    transition:transform .6s ease;
+  }
+  .fav-game:hover .fav-art img{transform:scale(1.04)}
+  .fav-art::after{
     content:"";
     position:absolute;inset:0;
-    background-image:
-      linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
-    background-size:24px 24px;
-    opacity:.6;
-  }
-  .fav-art-text{
-    position:relative;z-index:2;
-    font-family:var(--vw-title);
-    font-size:34px;line-height:1;
-    letter-spacing:2px;
-    color:#fff;
-    text-align:center;
-    text-shadow:0 4px 20px rgba(0,0,0,.35);
-    font-weight:400;
-  }
-  .fav-art-text span{
-    display:block;
-    font-size:14px;
-    letter-spacing:6px;
-    margin-top:14px;
-    font-family:var(--vw-mono);
-    opacity:.9;
+    background:linear-gradient(90deg, transparent 60%, rgba(26,11,46,.85));
+    pointer-events:none;
   }
   .fav-content{
     padding:32px 36px;
@@ -424,20 +507,18 @@
     color:var(--vw-cyan);margin-bottom:12px;
   }
   .fav-title{
-    font-family:var(--vw-title);font-weight:400;
-    font-size:clamp(26px,4vw,38px);
-    letter-spacing:2px;line-height:1.1;
+    font-family:var(--vw-title);font-weight:700;
+    font-size:clamp(28px,4.5vw,40px);
+    letter-spacing:.5px;line-height:1.1;
     margin-bottom:18px;
     background:linear-gradient(180deg, #fff 30%, var(--vw-pink));
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
   .fav-desc{
-    color:var(--vw-muted);font-size:15px;line-height:1.7;
+    color:var(--vw-muted);font-size:15px;line-height:1.75;
     max-width:520px;
   }
-  .fav-tags{
-    display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;
-  }
+  .fav-tags{ display:flex;gap:8px;flex-wrap:wrap;margin-top:20px; }
   .fav-tag{
     font-family:var(--vw-mono);font-size:13px;
     letter-spacing:1px;text-transform:uppercase;
@@ -451,54 +532,12 @@
     padding-left:16px;
     border-left:2px solid var(--vw-pink);
     font-family:var(--vw-mono);
-    font-size:16px;
+    font-size:20px;
     color:var(--vw-pink);
-    letter-spacing:.5px;
-    font-style:italic;
+    letter-spacing:1px;
   }
 
-  /* ============================================================
-     СЧЁТЧИК
-     ============================================================ */
-  .counter-grid{
-    display:grid;grid-template-columns:1fr 1fr;gap:16px;
-  }
-  .counter{
-    background:var(--vw-panel);
-    border:1px solid var(--vw-border);
-    border-radius:10px;
-    padding:34px 24px;text-align:center;
-    transition:all .3s ease;
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-  }
-  .counter:hover{
-    border-color:var(--vw-purple);
-    box-shadow:0 0 40px rgba(185,103,255,.12);
-  }
-  .counter .num{
-    font-family:var(--vw-mono);font-weight:700;
-    font-size:clamp(42px,8vw,64px);
-    line-height:1;letter-spacing:-1px;
-    margin-bottom:12px;
-    font-variant-numeric:tabular-nums;
-  }
-  .counter.rejected .num{
-    color:var(--vw-pink);
-    text-shadow:0 0 35px rgba(255,113,206,.4);
-  }
-  .counter.accepted .num{
-    color:var(--vw-mint);
-    text-shadow:0 0 35px rgba(5,255,161,.4);
-  }
-  .counter .label{
-    font-family:var(--vw-mono);font-size:13px;color:var(--vw-muted);
-    letter-spacing:3px;text-transform:uppercase;
-  }
-
-  /* ============================================================
-     FAQ
-     ============================================================ */
+  /* FAQ */
   .faq{display:grid;gap:10px}
   .faq-item{
     background:var(--vw-panel);
@@ -513,7 +552,7 @@
   .faq-q{
     width:100%;text-align:left;
     background:none;border:none;color:var(--vw-text);
-    font-family:var(--vw-sans);font-size:15px;font-weight:600;
+    font-family:var(--vw-sans);font-size:15.5px;font-weight:600;
     padding:20px 24px;cursor:pointer;
     display:flex;justify-content:space-between;align-items:center;gap:16px;
     transition:color .2s ease;
@@ -525,20 +564,17 @@
     line-height:1;
   }
   .faq-item.open .faq-q .plus{transform:rotate(45deg)}
-  .faq-a{
-    max-height:0;overflow:hidden;
-    transition:max-height .35s ease;
-  }
+  .faq-a{ max-height:0;overflow:hidden; transition:max-height .35s ease; }
   .faq-a-inner{
     padding:0 24px 22px;color:var(--vw-muted);font-size:14.5px;
     border-top:1px solid var(--vw-border);
     padding-top:18px;margin:0 24px 22px;
     padding-left:0;padding-right:0;
+    line-height:1.75;
   }
+  .faq-a-inner strong{color:var(--vw-pink)}
 
-  /* ============================================================
-     БЕЗОПАСНОСТЬ
-     ============================================================ */
+  /* БЕЗОПАСНОСТЬ */
   .security{
     background:linear-gradient(180deg, rgba(255,251,150,.04), transparent);
     border:1px solid rgba(255,251,150,.25);
@@ -554,12 +590,60 @@
     font-size:17px;font-weight:800;margin-bottom:12px;
     color:var(--vw-text);
   }
-  .security p{color:var(--vw-muted);font-size:14.5px}
+  .security p{color:var(--vw-muted);font-size:14.5px;line-height:1.75}
   .security p strong{color:var(--vw-sun);font-weight:700}
 
-  /* ============================================================
-     ФУТЕР
-     ============================================================ */
+  /* БАННЕР */
+  .banner{
+    max-width:920px;
+    margin:40px auto 0;
+    padding:0 24px;
+  }
+  .banner-inner{
+    background:
+      linear-gradient(135deg, rgba(1,205,254,.08), rgba(185,103,255,.08)),
+      var(--vw-panel);
+    border:1px dashed rgba(1,205,254,.5);
+    border-radius:12px;
+    padding:24px 28px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    transition:all .3s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .banner-inner::before{
+    content:"";
+    position:absolute;top:0;left:0;bottom:0;width:3px;
+    background:linear-gradient(180deg, var(--vw-cyan), var(--vw-purple));
+    box-shadow:0 0 20px rgba(1,205,254,.5);
+  }
+  .banner-inner:hover{
+    border-color:var(--vw-cyan);
+    box-shadow:0 0 40px rgba(1,205,254,.12);
+  }
+  .banner-ico{
+    font-family:var(--vw-mono);
+    font-size:28px;
+    color:var(--vw-cyan);
+    flex-shrink:0;
+    line-height:1;
+    text-shadow:0 0 18px rgba(1,205,254,.6);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  .banner-text{
+    font-family:var(--vw-mono);
+    font-size:clamp(16px,2.2vw,20px);
+    color:var(--vw-text);
+    letter-spacing:.5px;
+    line-height:1.4;
+  }
+  .banner-text .hl{color:var(--vw-cyan)}
+
+  /* ФУТЕР */
   footer{
     padding:50px 0 60px;text-align:center;
     border-top:1px solid var(--vw-border);
@@ -571,39 +655,54 @@
   }
   footer .accent{color:var(--vw-pink)}
 
-  /* ============================================================
-     АНИМАЦИИ
-     ============================================================ */
+  /* REVEAL */
   .reveal{
     opacity:0;transform:translateY(28px);
     transition:opacity .8s ease, transform .8s cubic-bezier(.2,.9,.3,1);
   }
   .reveal.show{opacity:1;transform:none}
 
-  /* ============================================================
-     МОБИЛЬНАЯ АДАПТАЦИЯ
-     ============================================================ */
-  @media (max-width:720px){
+  /* АДАПТАЦИЯ */
+  @media (max-width:780px){
     .fav-inner{grid-template-columns:1fr}
-    .fav-art{min-height:160px;padding:24px}
-    .fav-art-text{font-size:26px}
+    .fav-art{min-height:200px}
+    .fav-art::after{
+      background:linear-gradient(180deg, transparent 40%, rgba(26,11,46,.9));
+    }
     .fav-content{padding:26px 24px}
+    .about-grid{grid-template-columns:1fr}
   }
   @media (max-width:640px){
     section{padding:56px 0}
     .hero{padding:70px 0 50px}
-    .why-grid,.counter-grid{grid-template-columns:1fr}
-    .avatar{width:112px;height:112px;font-size:34px}
+    .avatar{width:112px;height:112px}
     .security{flex-direction:column;gap:14px;padding:26px}
-    .consequence{padding:26px}
     .nav{padding:14px 18px}
     .wrap{padding:0 18px}
-    .rules li{padding:16px}
-    .nickname{letter-spacing:2px}
+    .axiom{padding:24px 20px;font-size:16px}
+    .axiom::before{left:16px;font-size:10px;padding:2px 8px}
+    .consequence-block{padding:24px 22px}
+    .about-card{padding:22px}
+    .avatar-tip{max-width:240px;font-size:12px;top:-50px}
+    .intro-hi,.intro-me,.intro-nick{font-size:clamp(26px,7vw,52px)}
+    .intro-line{gap:8px;letter-spacing:.5px}
+    .nickname{letter-spacing:.5px}
+    .banner{padding:0 18px;margin-top:30px}
+    .banner-inner{padding:20px;gap:14px}
+    .banner-ico{font-size:22px}
   }
 </style>
 </head>
 <body>
+
+<!-- INTRO -->
+<div class="intro" id="intro">
+  <div class="intro-line">
+    <span class="intro-hi" id="intro-hi">Привет!</span>
+    <span class="intro-me" id="intro-me">Я —</span>
+    <span class="intro-nick" id="intro-nick">NianoRat</span>
+  </div>
+</div>
 
 <div class="bg-fx">
   <div class="glow a"></div>
@@ -611,97 +710,73 @@
   <div class="glow c"></div>
 </div>
 
-<!-- ============ HEADER ============ -->
 <header>
   <div class="nav">
-    <div class="logo"><span class="dot"></span>ＮＩＡＮＯＲＡＴ // ＳＴＡＴＵＳ</div>
+    <div class="logo"><span class="dot"></span>NianoRat // status</div>
     <a class="nav-link" href="https://steamcommunity.com/id/nianorat/" target="_blank" rel="noopener">STEAM ↗</a>
   </div>
 </header>
 
-<!-- ============ HERO ============ -->
 <section class="hero">
   <div class="wrap">
-    <div class="avatar-wrap">
+    <div class="avatar-wrap hero-anim shift d1">
       <div class="avatar-ring"></div>
-      <div class="avatar">N</div>
-      <span class="avatar-tip">Открыт для всех. Закрыт для случайных.</span>
+      <div class="avatar">
+        <img src="images/avatar.jpg" alt="NianoRat">
+      </div>
+      <span class="avatar-tip">Пока есть жопа, приключений будет много</span>
     </div>
 
-    <div class="tagline">Открытый профиль · Закрытый френдлист</div>
-    <h1 class="nickname">NIANORAT</h1>
-    <div class="city">📍 Твой город</div>
+    <h1 class="nickname hero-anim d2">NianoRat</h1>
 
-    <p class="status">
-      Профиль открыт, чтобы вы видели, во что я играю. Но заявки в друзья
-      я <span class="no">не принимаю</span>. <strong>Только если мы случайно пересеклись в матче.</strong>
+    <div class="city hero-anim shift d3">
+      📍 <a href="https://www.google.com/maps/search/Златоуст" target="_blank" rel="noopener">Златоуст</a>
+    </div>
+
+    <p class="motto hero-anim shift d4">
+      <span class="em">Рандом заявка в друзья</span> — не аргумент.<br>
+      <span class="em2">Встреча в катке</span> — what's up, my friend!
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="reveal" id="friends">
+  <div class="wrap">
+    <div class="sec-title">Правило номер один</div>
+    <h2>О заявках в друзья</h2>
+
+    <p class="friend-text">Для меня это больная тема, но я про неё напишу.</p>
+
+    <div class="axiom">
+      Моё железное правило — <strong>Я НЕ ПРИНИМАЮ ЗАЯВКИ В ДРУЗЬЯ, ЕСЛИ МЫ НЕ ПЕРЕСЕКАЛИСЬ В ИГРЕ ИЛИ В ЖИВУЮ.</strong>
+    </div>
+
+    <p class="friend-text">
+      Это аксиома, которую не изменить. Будь вы из моего города, у нас одинаковые увлечения,
+      одинаковые любимые игры, хотите обмена или любые другие причины — <strong>для меня это не имеет значения</strong>.
+      Приму я только тех, с кем пересекался в игре или в живую.
     </p>
 
-    <a class="steam-link" href="https://steamcommunity.com/id/nianorat/" target="_blank" rel="noopener">
-      Профиль Steam <span class="arrow">→</span>
-    </a>
-    <span class="steam-hint">Ссылка для справки. Заявки игнорирую.</span>
-  </div>
-</section>
+    <div class="why-subtitle">// Почему так — две причины</div>
 
-<div class="divider"></div>
-
-<!-- ============ ПРАВИЛА ============ -->
-<section class="reveal">
-  <div class="wrap">
-    <div class="sec-title">Правило</div>
-    <h2>Железное правило</h2>
-
-    <ul class="rules">
-      <li><span><strong>Рандомные заявки не принимаются.</strong> Всегда. Без исключений.</span></li>
-      <li><span>Общие игры, общие интересы, один город, вежливое сообщение — <strong>не аргумент</strong>.</span></li>
-      <li class="key"><span>Единственный путь: мы <strong>случайно попали в один матч</strong> и хорошо сыграли.</span></li>
-      <li><span>После этого я <strong>сам решаю</strong>, добавить или нет.</span></li>
-      <li><span>Если ты не знаешь, играли мы или нет — <strong>значит, не играли</strong>.</span></li>
-    </ul>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ============ ПОЧЕМУ ТАК ============ -->
-<section class="reveal">
-  <div class="wrap">
-    <div class="sec-title">Причины</div>
-    <h2>Почему так</h2>
-
-    <div class="why-grid">
-      <div class="card">
-        <div class="card-ico">// Человеческая</div>
-        <h3>Я не коллекционирую друзей</h3>
-        <p>Друзья — это те, с кем я реально играл, а не строчка в списке для галочки.</p>
-        <p>Мне не нужны 300 «друзей», которые никогда не напишут и не позовут в катку.</p>
+    <div class="why-list">
+      <div class="why-list-item">
+        <span>Я хочу <strong>ДРУЗЕЙ</strong>, а не расстрельный список.</span>
       </div>
-
-      <div class="card danger">
-        <div class="card-ico">// Практическая</div>
-        <h3>У меня дорогой инвентарь в TF2</h3>
-        <p>Заявка в друзья — это первый шаг любой скам-схемы: «привет, давай дружить» → «глянь мой трейд» → «одолжи на минуту» → минус инвентарь.</p>
-        <p>Я не параноик. Я просто не хочу однажды остаться без вещей.</p>
+      <div class="why-list-item">
+        <span>У меня дорогой инвентарь. Любая скам-схема начинается именно с заявки в друзья.
+        Я не параноик, я <strong>осторожный человек</strong>.</span>
       </div>
     </div>
-  </div>
-</section>
 
-<div class="divider"></div>
-
-<!-- ============ ЕСЛИ ОТПРАВИШЬ ============ -->
-<section class="reveal">
-  <div class="wrap">
-    <div class="sec-title">Предупреждение</div>
-    <h2>Если ты всё равно отправишь заявку</h2>
-
-    <div class="consequence">
+    <div class="consequence-block">
+      <h3>// Если ты всё равно отправишь заявку</h3>
       <ul>
-        <li><span class="mark">✕</span> Отклоню.</li>
-        <li><span class="mark">✕</span> Если повторишь — заблокирую.</li>
-        <li><span class="mark">✕</span> Начнёшь писать в комментариях или в других соцсетях «ну добавь» — тоже блок.</li>
-        <li><span class="mark">✕</span> Ничего личного. Просто правило.</li>
+        <li>Сначала отклоню.</li>
+        <li>Если снова отправишь — блок.</li>
+        <li>Если в комменты полезешь — не поможет. Я их тупо проигнорю, а ты своим действием покажешь, что тебе тупо заняться нечем. Если ты такой — гуляй лесом!</li>
       </ul>
     </div>
   </div>
@@ -709,20 +784,50 @@
 
 <div class="divider"></div>
 
-<!-- ============ СЧЁТЧИК ============ -->
-<section class="reveal">
+<section class="reveal" id="about">
   <div class="wrap">
-    <div class="sec-title">Статистика</div>
-    <h2>Цифры</h2>
+    <div class="sec-title">Кто я такой</div>
+    <h2>О себе</h2>
 
-    <div class="counter-grid">
-      <div class="counter rejected">
-        <div class="num" data-target="412">0</div>
-        <div class="label">Отклонено заявок</div>
+    <div class="about-grid">
+      <div class="about-card wide">
+        <div class="card-ico">// Кто я</div>
+        <p>
+          Привет. Меня зовут <span class="hl">Никита</span>, но можешь звать <span class="hl">Никитосом</span>.
+          И то, и то для меня — синонимы моего имени. <span class="hl-cyan">15 лет</span>, 9 класс.
+          Учился в музыкальной школе <span class="hl-cyan">7 лет</span>.
+        </p>
       </div>
-      <div class="counter accepted">
-        <div class="num" data-target="6">0</div>
-        <div class="label">Принято · все из случайных каток</div>
+
+      <div class="about-card">
+        <div class="card-ico">// Техно</div>
+        <h3>Вайбкодинг и нейронки</h3>
+        <p>Слегка владею вайбкодингом, могу работать с нейросетями.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="card-ico">// Музыка</div>
+        <h3>Что в наушниках</h3>
+        <p>Альтернативный рок, гранж, шугейз, инди-рок.</p>
+        <p>Играю на <span class="hl-cyan">синтезаторе</span>.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="card-ico">// Портативки</div>
+        <h3>Что лежит на полке</h3>
+        <p>Steam Deck LCD 512GB, PSP 3008, PS Vita Slim, Sega, Dendy.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="card-ico">// Фотография</div>
+        <h3>Чем снимаю</h3>
+        <p>Sony Alpha A37.</p>
+      </div>
+
+      <div class="about-card wide">
+        <div class="card-ico">// Игры</div>
+        <h3>Любимые</h3>
+        <p>Mirror's Edge, TF2, Portal 2, Black Mesa, Control, R.E.P.O.</p>
       </div>
     </div>
   </div>
@@ -730,8 +835,7 @@
 
 <div class="divider"></div>
 
-<!-- ============ ЛЮБИМАЯ ИГРА ============ -->
-<section class="reveal">
+<section class="reveal" id="favorite">
   <div class="wrap">
     <div class="sec-title">Фаворит</div>
     <h2>Любимая игра</h2>
@@ -739,25 +843,25 @@
     <div class="fav-game">
       <div class="fav-inner">
         <div class="fav-art">
-          <div class="fav-art-text">
-            MIRROR'S<br>EDGE
-            <span>2008</span>
-          </div>
+          <img src="images/mirrors_edge.jpg" alt="Mirror's Edge">
         </div>
         <div class="fav-content">
           <div class="fav-label">// Favorite of all time</div>
           <div class="fav-title">Mirror's Edge</div>
           <p class="fav-desc">
-            Паркур в стерильном мегаполисе, где всё белое, а ты — красная точка
-            на его фоне. Никаких загрузок, никаких подсказок, только движение и
-            чувство потока. Игра, которая научила меня, что скорость — это стиль.
+            Она поражает не просто сюжетом или графикой, а самой своей сутью.
+            Этой игре нет альтернатив, она уникальна. Но главное, чему она меня
+            научила, выходит далеко за рамки гейминга. Она показала: к своему делу
+            всегда нужно подходить серьёзно, но при этом — постоянно экспериментировать,
+            искать новые пути и уметь выкручиваться в любых ситуациях. Для меня это
+            не просто лучшая игра, а наглядный урок того, как нужно действовать в жизни.
           </p>
           <div class="fav-tags">
             <span class="fav-tag">Parkour</span>
             <span class="fav-tag">First-Person</span>
             <span class="fav-tag">Dystopia</span>
           </div>
-          <div class="fav-quote">"Run."</div>
+          <div class="fav-quote">"Беги. Чувствуй тело и поток."</div>
         </div>
       </div>
     </div>
@@ -766,40 +870,39 @@
 
 <div class="divider"></div>
 
-<!-- ============ FAQ ============ -->
-<section class="reveal">
+<section class="reveal" id="faq">
   <div class="wrap">
     <div class="sec-title">FAQ</div>
     <h2>Частые вопросы</h2>
 
     <div class="faq">
       <div class="faq-item">
-        <button class="faq-q">У нас 200 общих игр, добавь! <span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Нет. Общие игры ничего не значат. Мы не играли вместе — значит, заявка отклоняется.</div></div>
+        <button class="faq-q">Какой твой мейн класс в TF2? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><strong>Демо-рыцарь.</strong></div></div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q">Я из твоего города <span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">И что? Город в профиле — просто город. Это не повод для дружбы и не пропуск в френдлист.</div></div>
+        <button class="faq-q">У тебя много скриншотов из Garry's Mod. Помоги сделать анимацию/сцену! <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          На самом деле я могу помочь, но если меня часто просить — могу отказать.
+          Хорошие новости: я работаю над роликом, в котором расскажу про позинг и анимацию в GMod.
+          Постараюсь в скором времени дописать сценарий и сделать монтаж видео.
+          Позже появится в Steam-профиле и на сайте.
+        </div></div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q">Я не скамер, честно <span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Скамеры тоже так говорят. Я не проверяю каждого — я просто не принимаю рандомные заявки. Так надёжнее.</div></div>
+        <button class="faq-q">У тебя много карт по Portal 2. <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          Да, так и есть. Если хочешь — можешь пройти. Там есть много интересного!
+        </div></div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q">Я просто хочу дружить <span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Я тоже. Но с теми, с кем играл. Дружба в Steam начинается с матча, а не с заявки.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">А если мы случайно играли? <span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Напиши в комментариях под моим профилем Steam: во что и когда. Если я вспомню — свяжусь сам. Заявку слать не надо.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Почему профиль открыт, если ты никого не добавляешь? <span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Чтобы вы видели мои игры, часы и достижения. Это витрина, а не дверь.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">Почему Mirror's Edge? <span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Потому что это единственная игра, где скорость — не механика, а образ мысли. И потому что красное на белом — самая красивая цветовая схема в истории игр.</div></div>
+        <button class="faq-q">Хочешь ли ты перейти на SFM или что-то вроде Blender? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          Да, но пока руки не доходят.
+        </div></div>
       </div>
     </div>
   </div>
@@ -807,7 +910,6 @@
 
 <div class="divider"></div>
 
-<!-- ============ БЕЗОПАСНОСТЬ ============ -->
 <section class="reveal">
   <div class="wrap">
     <div class="security">
@@ -824,7 +926,16 @@
   </div>
 </section>
 
-<!-- ============ FOOTER ============ -->
+<!-- БАННЕР -->
+<div class="banner">
+  <div class="banner-inner">
+    <span class="banner-ico">◆</span>
+    <span class="banner-text">
+      Постараюсь в скором времени <span class="hl">добавить больше контента</span> на сайт!
+    </span>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
     <p>
@@ -835,72 +946,77 @@
 </footer>
 
 <script>
-  /* FAQ-аккордеон */
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.parentElement;
-      const answer = item.querySelector('.faq-a');
-      const isOpen = item.classList.contains('open');
+/* INTRO */
+(function playIntro(){
+  const intro = document.getElementById('intro');
+  const hi = document.getElementById('intro-hi');
+  const me = document.getElementById('intro-me');
+  const nick = document.getElementById('intro-nick');
 
-      document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.faq-a').style.maxHeight = null;
-      });
+  const played = sessionStorage.getItem('introPlayed');
 
-      if (!isOpen) {
-        item.classList.add('open');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-      }
-    });
-  });
-
-  /* Появление секций при скролле */
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('show');
-        revealObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  /* Счётчики */
-  const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el = e.target;
-      const target = parseInt(el.dataset.target, 10);
-      const duration = 1600;
-      const start = performance.now();
-
-      const tick = (now) => {
-        const p = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.floor(target * eased);
-        if (p < 1) requestAnimationFrame(tick);
-        else el.textContent = target;
-      };
-      requestAnimationFrame(tick);
-      counterObserver.unobserve(el);
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('.counter .num').forEach(el => counterObserver.observe(el));
-
-  /* Параллакс аватара */
-  const avatarWrap = document.querySelector('.avatar-wrap');
-  const avatar = document.querySelector('.avatar');
-  if (avatarWrap && window.matchMedia('(hover: hover)').matches) {
-    avatarWrap.addEventListener('mousemove', (e) => {
-      const rect = avatarWrap.getBoundingClientRect();
-      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-      avatar.style.transform = `scale(1.05) rotate(${x * 4}deg) translate(${x * 8}px, ${y * 8}px)`;
-    });
-    avatarWrap.addEventListener('mouseleave', () => {
-      avatar.style.transform = '';
-    });
+  if (played) {
+    intro.remove();
+    document.querySelectorAll('.hero-anim').forEach(el => el.classList.add('show'));
+    return;
   }
+
+  setTimeout(() => hi.classList.add('show'), 300);
+  setTimeout(() => me.classList.add('show'), 900);
+  setTimeout(() => nick.classList.add('show'), 1400);
+
+  setTimeout(() => {
+    intro.classList.add('hide');
+    document.querySelectorAll('.hero-anim').forEach(el => el.classList.add('show'));
+    setTimeout(() => intro.remove(), 900);
+    sessionStorage.setItem('introPlayed', '1');
+  }, 3000);
+})();
+
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const answer = item.querySelector('.faq-a');
+    const isOpen = item.classList.contains('open');
+
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-a').style.maxHeight = null;
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  });
+});
+
+/* REVEAL */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('show');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* АВАТАР */
+const avatarWrap = document.querySelector('.avatar-wrap');
+const avatar = document.querySelector('.avatar');
+if (avatarWrap && window.matchMedia('(hover: hover)').matches) {
+  avatarWrap.addEventListener('mousemove', (e) => {
+    const rect = avatarWrap.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+    const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+    avatar.style.transform = `scale(1.05) rotate(${x * 6}deg) translate(${x * 8}px, ${y * 8}px)`;
+  });
+  avatarWrap.addEventListener('mouseleave', () => {
+    avatar.style.transform = '';
+  });
+}
 </script>
 
 </body>
